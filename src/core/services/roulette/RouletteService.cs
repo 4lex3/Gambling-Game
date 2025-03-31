@@ -42,11 +42,12 @@ public class RouletteService : OnInit
         int[] parsedData = JsonConvert.DeserializeObject<int[]>(responseBody);
 
         SpinRouletteResults results = new SpinRouletteResults(parsedData, CalculatePoints(parsedData));
+        MapRobots(results);
 
         return results;
     }
 
-    public void MapRobots(SpinRouletteResults results) {
+    private void MapRobots(SpinRouletteResults results) {
         foreach (int number in results.IntegerValues) robotsMap[number]();
     }
 

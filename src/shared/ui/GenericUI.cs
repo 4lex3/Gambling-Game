@@ -1,7 +1,25 @@
-using System.Drawing;
-
 public static class GenericUI 
 {
+
+    public static List<ConsoleColor> Colors = new List<ConsoleColor>
+    {
+        ConsoleColor.Black,
+        ConsoleColor.DarkBlue,
+        ConsoleColor.DarkGreen,
+        ConsoleColor.DarkCyan,
+        ConsoleColor.DarkRed,
+        ConsoleColor.DarkMagenta,
+        ConsoleColor.DarkYellow,
+        ConsoleColor.Gray,
+        ConsoleColor.DarkGray,
+        ConsoleColor.Blue,
+        ConsoleColor.Green,
+        ConsoleColor.Cyan,
+        ConsoleColor.Red,
+        ConsoleColor.Magenta,
+        ConsoleColor.Yellow,
+        ConsoleColor.White
+    };
 
 
     public static void WriteLine(string text, ConsoleColor textColor = ConsoleColor.Green, int sleep = 14)
@@ -42,30 +60,58 @@ public static class GenericUI
 
     }
 
+    public static Task FlashingText(string text, CancellationToken AnimationControl){
 
+        return Task.Run(() => {
 
+            int counter = 0;
+
+            while (!AnimationControl.IsCancellationRequested)
+            {
+                Console.Clear();
+
+                Console.ForegroundColor = Colors[counter];
+                Console.WriteLine(text);
+                Console.ResetColor();                    
+
+                if (counter >= Colors.Count - 1) counter = 0;
+                
+                counter++;
+                Thread.Sleep(150);
+            }
+            
+        });
+
+    }
+
+    public static void ShowLoader()
+    {
+        string[] animationFrames = { "|", "/", "-", "\\" };
+        int frameIndex = 0;
+        int progressBarWidth = 50;
+        int progress = 0;
+
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("Loading ...");
+
+        while (progress <= progressBarWidth)
+        {
+            Console.SetCursorPosition(0, 1);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write($"[{new string('#', progress)}{new string(' ', progressBarWidth - progress)}]");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write($" {animationFrames[frameIndex]}");
+
+            frameIndex = (frameIndex + 1) % animationFrames.Length;
+
+            progress++;
+            Thread.Sleep(100); 
+        }
+
+        Console.SetCursorPosition(0, 1);
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine($"[{new string('#', progressBarWidth)}] ¡Done!");
+        Console.ResetColor();
+    }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
