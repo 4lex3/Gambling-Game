@@ -22,3 +22,4 @@
 /home/xander/Documents/C#/obj/Debug/net8.0/C#.csproj.AssemblyReference.cache
 /home/xander/Documents/C#/obj/Debug/net8.0/C#.csproj.Up2Date
 /home/xander/Documents/C#/bin/Debug/net8.0/Newtonsoft.Json.dll
+/home/xander/Documents/C#/obj/Debug/net8.0/C#.sourcelink.json

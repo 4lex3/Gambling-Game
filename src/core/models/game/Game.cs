@@ -1,6 +1,3 @@
-using System.Threading.Tasks;
-using Microsoft.Win32;
-
 public class Game
 {
 
@@ -9,67 +6,90 @@ public class Game
     private RobotSpawnerService<C3PO> C3POGenerator { get; }
     private RobotSpawnerService<R2D2> R2D2Generator { get; }
     private RouletteService RouletteService { get; }
-
+    private SessionController SessionController { get; }
 
     public Game(
         RobotSpawnerService<BB8> bb8Generator,
         RobotSpawnerService<C3PO> c3poGenerator,
         RobotSpawnerService<R2D2> r2d2Generator,
-        RouletteService rouletteService
+        RouletteService rouletteService,
+        SessionController sessionController
     )
     {
         BB8Generator = bb8Generator;
         C3POGenerator = c3poGenerator;
         R2D2Generator = r2d2Generator;
         RouletteService = rouletteService;
+        SessionController = sessionController;
     }
 
 
     public async Task Start()
     {
 
-        // int option = 0;
-        // do
-        // {
+        int option = 0;
 
-            int option = MenuUI.ShowMenu();
-            // HandleMenus(option);
+        do
+        {
 
-        // } while (option >= 1 && option <= 5);
+            option = MenuUI.ShowMenu();
+            if(option == 4 ) break;
+            await HandleMenus(option);
 
+        } while (true);
 
-        // Console.WriteLine($"Exit");
-        
+        GenericUI.WriteLine($"Exit.. :3");
     }
 
 
-    // private void HandleMenus(int option)
-    // {
+    private async Task HandleMenus(int option)
+    {
 
-    //     switch (option)
-    //     {
-    //         case 1:
+        GameSession currentSession = null;
 
-    //             break;
-    //         case 2:
-    //             // Save game session
-    //             break;
-    //         case 3:
-    //             // See your position in the ranking
-    //             break;
-    //         case 4:
-    //             // Check your robots
-    //             break;
-    //         case 5:
-    //             // Check your robots
-    //             break;
+        switch (option)
+        {
+            case 1:
 
-    //         default:
-    //             GenericUI.WriteLine("Invalid option, please try again.");
-    //             break;
+                string name = GenericUI.TextInput("Insert your name: ");
+                currentSession = SessionController.CreateGameSession(name);
 
-    //     }
-    // }
+                
+
+                for (int i = 0; i < 11; i++)
+                {
+
+                }
 
 
+
+                // SessionController.SortInRanked(currentSession);
+                break;
+
+            case 2:
+
+                string target = GenericUI.TextInput("Enter your name to search: ");
+                Console.Clear();
+                var loader = GenericUI.ShowLoader();
+                var sessionTask = SessionController.GetGameSessions();
+
+                await loader;
+                List<GameSession> sessions = await sessionTask;
+
+                Console.Clear();
+                ProfileUI.FindUI(sessions, target);
+                Console.ReadKey();
+
+                break;
+
+            case 3:
+
+                Console.Clear();
+                if(currentSession == null) GenericUI.WriteLine("You need to create a game session first!!! ", ConsoleColor.Red);
+                Console.ReadKey();
+                
+                break;
+        }
+
+    }
 }

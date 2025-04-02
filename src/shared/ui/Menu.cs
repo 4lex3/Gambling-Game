@@ -2,6 +2,8 @@
 public class MenuUI()
 {
     public static string Banner = @"
+
+
                         '########::'####:'########::'########::::::::::::::::'########:::'#######::'##::::'##:'##:::::::'########:'########:'########:'########:
                         ##.... ##:. ##:: ##.... ##: ##.....::::::::::::::::: ##.... ##:'##.... ##: ##:::: ##: ##::::::: ##.....::... ##..::... ##..:: ##.....::
                         ##:::: ##:: ##:: ##:::: ##: ##:::::::::::::::::::::: ##:::: ##: ##:::: ##: ##:::: ##: ##::::::: ##:::::::::: ##::::::: ##:::: ##:::::::
@@ -10,6 +12,9 @@ public class MenuUI()
                         ##::::::::: ##:: ##:::::::: ##:::::::::::::::::::::: ##::. ##:: ##:::: ##: ##:::: ##: ##::::::: ##:::::::::: ##::::::: ##:::: ##:::::::
                         ##::::::::'####: ##:::::::: ########:::::::::::::::: ##:::. ##:. #######::. #######:: ########: ########:::: ##::::::: ##:::: ########:
                         ..:::::::::....::..:::::::::........:::::::::::::::::..:::::..:::.......::::.......:::........::........:::::..::::::::..:::::........::
+
+                        ================ 🎲    🎰    ♠️    ♥️    ♦️    ♣️    🎲    🎰    🃏    ♠️    ♥️    ♦️    ♣️    🎲    🎰    🃏    ♠️    ♥️    ♦️    ♣ ===============
+
     ";
 
 
@@ -30,13 +35,13 @@ public class MenuUI()
         Console.Clear();
     }
 
-
     public static int ShowMenu()
     {
 
         ShowBanner();
 
         CancellationTokenSource animationOptionsControl = new CancellationTokenSource();
+        
 
         int key = 0;  
         do
@@ -45,30 +50,27 @@ public class MenuUI()
             GenericUI.FlashingText($@"
                         {Banner}
 
-                        1. Spin Roulette
-                        2. Save game session
-                        3. See your position in the ranking
-                        4. Check your robots
-                        5. Check your robots
+                        1. Spin Roulette 
+                        2. See your position in the ranking
+                        3. Check your robots
+                        4. Exit
                         
                         Insert your option: 
             ", animationOptionsControl.Token);
 
             key = Console.ReadKey(true).KeyChar - '0';
 
-            if(!(key >= 1 && key <= 5)){
+            if(!(key >= 1 && key <= 4)){
                 animationOptionsControl.Cancel();
-                GenericUI.WriteLine($"Invalid number");
+                GenericUI.WriteLine($"Invalid number", ConsoleColor.Red);
                 Console.ReadKey();
             }
 
-        } while (!(key >= 1 && key <= 5));
+        } while (!(key >= 1 && key <= 4));
 
 
         animationOptionsControl.Cancel();
         return key;
     }
-
-
 
 }

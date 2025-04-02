@@ -1,4 +1,4 @@
-public static class GenericUI 
+public static class GenericUI
 {
 
     public static List<ConsoleColor> Colors = new List<ConsoleColor>
@@ -48,7 +48,7 @@ public static class GenericUI
             try
             {
                 WriteLine($"{label}", consoleColor); value = Console.ReadLine()!;
-                if(value == "") throw new NullReferenceException("This value is not empty! ");
+                if (value == "") throw new NullReferenceException("This value is not empty! ");
                 return value;
             }
             catch (NullReferenceException e)
@@ -60,9 +60,11 @@ public static class GenericUI
 
     }
 
-    public static Task FlashingText(string text, CancellationToken AnimationControl){
+    public static Task FlashingText(string text, CancellationToken AnimationControl)
+    {
 
-        return Task.Run(() => {
+        return Task.Run(() =>
+        {
 
             int counter = 0;
 
@@ -72,46 +74,58 @@ public static class GenericUI
 
                 Console.ForegroundColor = Colors[counter];
                 Console.WriteLine(text);
-                Console.ResetColor();                    
+                Console.ResetColor();
 
                 if (counter >= Colors.Count - 1) counter = 0;
-                
+
                 counter++;
                 Thread.Sleep(150);
             }
-            
+
         });
 
     }
 
-    public static void ShowLoader()
+    public static Task ShowLoader()
     {
-        string[] animationFrames = { "|", "/", "-", "\\" };
-        int frameIndex = 0;
-        int progressBarWidth = 50;
-        int progress = 0;
-
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write("Loading ...");
-
-        while (progress <= progressBarWidth)
+        return Task.Run(() =>
         {
-            Console.SetCursorPosition(0, 1);
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write($"[{new string('#', progress)}{new string(' ', progressBarWidth - progress)}]");
+            string[] animationFrames = { "|", "/", "-", "\\" };
+            int frameIndex = 0;
+            int progressBarWidth = 50;
+            int progress = 0;
+
+            int consoleWidth = Console.WindowWidth;
+            int consoleHeight = Console.WindowHeight;
+
+            int centerX = (consoleWidth / 2) - (progressBarWidth / 2);
+            int centerY = consoleHeight / 2;
+
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.Write($" {animationFrames[frameIndex]}");
 
-            frameIndex = (frameIndex + 1) % animationFrames.Length;
+            Console.WriteLine($"Loading ... ");
+            
 
-            progress++;
-            Thread.Sleep(100); 
-        }
+            while (progress <= progressBarWidth)
+            {
+                Console.SetCursorPosition(centerX, centerY);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write($"[{new string('#', progress)}{new string(' ', progressBarWidth - progress)}]");
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write($" {animationFrames[frameIndex]}");
 
-        Console.SetCursorPosition(0, 1);
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine($"[{new string('#', progressBarWidth)}] ¡Done!");
-        Console.ResetColor();
+                frameIndex = (frameIndex + 1) % animationFrames.Length;
+                progress++;
+                Thread.Sleep(100);
+            }
+
+            Console.SetCursorPosition(centerX, centerY);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"[{new string('#', progressBarWidth)}] ¡Done!");
+            Console.ResetColor();
+        });
     }
+
 
 }

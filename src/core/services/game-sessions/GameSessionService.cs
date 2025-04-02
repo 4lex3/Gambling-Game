@@ -36,7 +36,7 @@ public class SessionController
         List<GameSession> gameSessions = await GetGameSessions();
         gameSessions.Add(newGameSession);
 
-        var sortedSessions = gameSessions.OrderBy((session) => session.Points);
+        var sortedSessions = gameSessions.OrderByDescending((session) => session.Points);
         await File.WriteAllLinesAsync(sessionFile, sortedSessions.Select((session) => SessionToString(session)));
     }
 
