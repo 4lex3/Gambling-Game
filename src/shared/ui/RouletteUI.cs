@@ -9,20 +9,20 @@ public static class RouletteUI
     };
 
 
-    public static void SpinAnimation()
+    public static void SpinAnimation(int points)
     {
         Console.Clear();
 
         for (int i = 0; i < 30; i++)
         {
             RandomSortList(symbols);
-            ShowTable(symbols);
+            ShowTable(symbols, points);
             Thread.Sleep(100);
         }
 
     }
 
-    public static void ShowRouletteResults(int[] results)
+    public static void ShowRouletteResults(int[] results, int points)
     {
         Console.Clear();
 
@@ -36,8 +36,7 @@ public static class RouletteUI
             }
         }
 
-        ShowTable(values);
-        Console.ReadKey();
+        ShowTable(values, points);
     }
 
     public static void RandomSortList(List<string> list)
@@ -56,10 +55,14 @@ public static class RouletteUI
         }
     }
 
-    private static void ShowTable(List<string> values)
+    private static void ShowTable(List<string> values, int points)
     {
 
         Console.Clear();
+
+        Console.ForegroundColor = ConsoleColor.DarkCyan;
+        Console.WriteLine("Current Points: " + points);        
+        Console.ResetColor();
 
         Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.WriteLine("╔═══════╦═══════╦═══════╗");

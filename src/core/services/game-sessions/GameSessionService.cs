@@ -34,9 +34,10 @@ public class SessionController
     public async Task SortInRanked(GameSession newGameSession){ 
 
         List<GameSession> gameSessions = await GetGameSessions();
-        gameSessions.Add(newGameSession);
+        List<GameSession> filteredGameSession = gameSessions.Where((session) => session.Name != newGameSession.Name).ToList();
 
-        var sortedSessions = gameSessions.OrderByDescending((session) => session.Points);
+        filteredGameSession.Add(newGameSession);
+        var sortedSessions = filteredGameSession.OrderByDescending((session) => session.Points);
         await File.WriteAllLinesAsync(sessionFile, sortedSessions.Select((session) => SessionToString(session)));
     }
 
