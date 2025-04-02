@@ -51,16 +51,11 @@ public class Game
         {
             case 1:
 
-                string name = GenericUI.TextInput("Insert your name: ");
-                currentSession = SessionController.CreateGameSession(name);
+                // string name = GenericUI.TextInput("Insert your name: ");
+                // currentSession = SessionController.CreateGameSession(name);
 
                 
-
-                for (int i = 0; i < 11; i++)
-                {
-
-                }
-
+                // RouletteUI.SpinAnimation();
 
 
                 // SessionController.SortInRanked(currentSession);
